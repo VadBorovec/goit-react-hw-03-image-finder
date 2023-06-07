@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { IconBtn } from './IconButton.styled';
 
-export const IconButton = ({ children, onClick, ...allyProps }) => (
+const IconButton = ({ children, onClick, ...allyProps }) => (
   <IconBtn
     type="button"
     className="IconButton"
@@ -12,6 +12,8 @@ export const IconButton = ({ children, onClick, ...allyProps }) => (
     {children}
   </IconBtn>
 );
+
+export default IconButton;
 
 IconButton.defaultProps = {
   onClick: () => null,

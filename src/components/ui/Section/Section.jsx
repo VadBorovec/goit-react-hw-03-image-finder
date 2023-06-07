@@ -1,7 +1,7 @@
 // import PropTypes from 'prop-types';
 import { Card, CardHeader, CardTitle, CardContent } from './Section.styled';
 
-export const Section = ({ title, children }) => {
+const Section = ({ title, children }) => {
   return (
     <Card>
       {title && (
@@ -13,6 +13,8 @@ export const Section = ({ title, children }) => {
     </Card>
   );
 };
+
+export default Section;
 
 // Title.propTypes = {
 //   title: PropTypes.string,
