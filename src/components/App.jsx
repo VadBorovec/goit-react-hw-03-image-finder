@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Container from './ui/Container';
 import Section from './ui/Section';
+import Button from './ui/Button';
 
 import Modal from './Modal';
 
@@ -110,37 +111,25 @@ class App extends Component {
 
     return (
       <Container>
-        <button type="button" onClick={this.toggleModal}>
-          open modal
-        </button>
-        {showModal && (
-          <Modal onClose={this.toggleModal}>
-            <h1>Title Modal</h1>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-              nulla recusandae nostrum ipsam provident! Nulla quas corporis
-              tempore soluta, laudantium velit, cupiditate excepturi labore
-              cumque quae debitis rerum blanditiis accusamus?
-            </p>
-            <button type="button" onClick={this.toggleModal}>
-              close modal
-            </button>
-          </Modal>
-        )}
-        {/* <Section title="Todo list">
-          <TodoEditor onSubmit={this.addTodo} />
-          <TodoFilter value={filter} onChange={this.changeFilter} />
-          <TodoStats
-            totalTodoCount={totalTodoCount}
-            completedTodoCount={completedTodoCount}
-          />
-
-          <TodoList
-            todos={visibleTodos}
-            onDeleteTodo={this.deleteTodo}
-            onToggleCompleted={this.toggleCompleted}
-          />
-        </Section> */}
+        <Section title="Todo list">
+          <Button type="button" onClick={this.toggleModal}>
+            open modal
+          </Button>
+          {showModal && (
+            <Modal onClose={this.toggleModal}>
+              <h1>Title Modal</h1>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
+                nulla recusandae nostrum ipsam provident! Nulla quas corporis
+                tempore soluta, laudantium velit, cupiditate excepturi labore
+                cumque quae debitis rerum blanditiis accusamus?
+              </p>
+              <Button type="button" onClick={this.toggleModal}>
+                close modal
+              </Button>
+            </Modal>
+          )}
+        </Section>
       </Container>
     );
   }
