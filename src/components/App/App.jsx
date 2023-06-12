@@ -94,9 +94,6 @@ class App extends Component {
         {totalImages && !isLoading && totalImages / images.length > page && (
           <Button onClick={this.handleLoadMore}></Button>
         )}
-        {/* {images.length > 0 && !isLoading && (
-          <Button onClick={this.handleLoadMore} />
-        )} */}
         {showModal && (
           <Modal
             onClose={this.handleCloseModal}
