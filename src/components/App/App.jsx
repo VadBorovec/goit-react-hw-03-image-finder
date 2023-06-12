@@ -16,6 +16,7 @@ class App extends Component {
     largeImageURL: null,
     tagImage: null,
     isLoading: false,
+    isScroll: false,
     showModal: false,
     isError: false,
   };
@@ -26,7 +27,7 @@ class App extends Component {
     const { query, page } = this.state;
 
     if (prevSearch !== query || prevPage !== page) {
-      this.setState({ isLoading: true });
+      this.setState({ isLoading: true, isScroll: false });
 
       try {
         const response = await fetchImages(query, page);
@@ -40,8 +41,11 @@ class App extends Component {
       } catch (error) {
         this.setState({ isError: error.message });
       } finally {
-        this.setState({ isLoading: false });
+        this.setState({ isLoading: false, isScroll: true });
       }
+    }
+    if (this.state.isScroll) {
+      this.pageScroll();
     }
   }
 
@@ -52,6 +56,7 @@ class App extends Component {
       images: [],
       // totalImages: null,
       isLoading: false,
+      isScroll: false,
       showModal: false,
       isError: false,
     });
@@ -71,6 +76,17 @@ class App extends Component {
 
   handleLoadMore = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
+  };
+
+  pageScroll = () => {
+    const { height: cardHeight } = document
+      .querySelector('.ImageGallery')
+      .firstElementChild.getBoundingClientRect();
+
+    window.scrollBy({
+      top: cardHeight * 3,
+      behavior: 'smooth',
+    });
   };
 
   render() {
