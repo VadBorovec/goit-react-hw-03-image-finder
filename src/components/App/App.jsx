@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import Notiflix from 'notiflix';
+
 import Searchbar from '../Searchbar';
 import ImageGallery from '../ImageGallery';
 import Button from '../Button';
 import Modal from '../Modal';
 import Loader from '../Loader';
 import Error from '../Error';
+
 import fetchImages from '../../services';
 
 class App extends Component {
@@ -32,29 +35,45 @@ class App extends Component {
       try {
         const response = await fetchImages(query, page);
         const { hits, totalHits } = response;
-        console.log(hits);
-        console.log(totalHits);
-        this.setState(prevState => ({
-          images: page === 1 ? hits : [...prevState.images, ...hits],
-          totalImages: totalHits,
-        }));
+        if (totalHits === 0) {
+          Notiflix.Notify.failure(
+            'Sorry, there are no images matching your search query. Please try again.'
+          );
+          // this.setState({ isError: true });
+          // throw new Error('');
+        } else {
+          Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+
+          this.setState(prevState => ({
+            images: page === 1 ? hits : [...prevState.images, ...hits],
+            totalImages: totalHits,
+          }));
+        }
       } catch (error) {
         this.setState({ isError: error.message });
       } finally {
         this.setState({ isLoading: false, isScroll: true });
       }
     }
+
     if (this.state.isScroll) {
       this.pageScroll();
     }
   }
 
   handleSubmit = query => {
+    if (query === '') {
+      Notiflix.Notify.failure('Please enter a search query.');
+    } else if (query === this.state.query) {
+      Notiflix.Notify.info(`${query} have already been displayed.`);
+      return;
+    }
+
     this.setState({
       query,
       page: 1,
       images: [],
-      // totalImages: null,
+      totalImages: null,
       isLoading: false,
       isScroll: false,
       showModal: false,
