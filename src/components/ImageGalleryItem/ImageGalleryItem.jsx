@@ -1,4 +1,5 @@
 import React from 'react';
+import './ImageGalleryItem.css';
 
 const ImageGalleryItem = ({ image, handleOpenModal }) => {
   const { largeImageURL, tags, webformatURL } = image;

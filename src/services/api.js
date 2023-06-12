@@ -16,7 +16,7 @@ const fetchImages = async (query, page = 1) => {
 
   try {
     const response = await axios.get(BASE_URL, { params });
-    return response.data.hits;
+    return response.data;
   } catch (error) {
     throw new Error('Failed to fetch images from the API');
   }
