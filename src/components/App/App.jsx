@@ -15,13 +15,13 @@ class App extends Component {
     images: [],
     page: 1,
     query: '',
-    totalImages: null,
     largeImageURL: null,
     tagImage: null,
     isLoading: false,
     isScroll: false,
-    showModal: false,
     isError: false,
+    showModal: false,
+    showBtn: false,
   };
 
   async componentDidUpdate(_, prevState) {
@@ -39,16 +39,14 @@ class App extends Component {
           Notiflix.Notify.failure(
             'Sorry, there are no images matching your search query. Please try again.'
           );
-          // this.setState({ isError: true });
-          // throw new Error('');
-        } else {
-          Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
-
-          this.setState(prevState => ({
-            images: page === 1 ? hits : [...prevState.images, ...hits],
-            totalImages: totalHits,
-          }));
+          return;
         }
+        Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+
+        this.setState(prevState => ({
+          images: [...prevState.images, ...hits],
+          showBtn: page < Math.ceil(totalHits / 12),
+        }));
       } catch (error) {
         this.setState({ isError: error.message });
       } finally {
@@ -73,11 +71,11 @@ class App extends Component {
       query,
       page: 1,
       images: [],
-      totalImages: null,
       isLoading: false,
       isScroll: false,
-      showModal: false,
       isError: false,
+      showModal: false,
+      showBtn: false,
     });
   };
 
@@ -111,13 +109,12 @@ class App extends Component {
   render() {
     const {
       images,
-      page,
-      totalImages,
       largeImageURL,
       tagImage,
       isLoading,
-      showModal,
       isError,
+      showModal,
+      showBtn,
     } = this.state;
 
     return (
@@ -126,9 +123,7 @@ class App extends Component {
         {isError && <Error error={` ${isError}. Please try again.`} />}
         <ImageGallery images={images} handleOpenModal={this.handleOpenModal} />
         {isLoading && <Loader />}
-        {totalImages && !isLoading && totalImages / images.length > page && (
-          <Button onClick={this.handleLoadMore}></Button>
-        )}
+        {showBtn && <Button onClick={this.handleLoadMore}></Button>}
         {showModal && (
           <Modal
             onClose={this.handleCloseModal}
